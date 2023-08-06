@@ -1,7 +1,12 @@
+import { css } from "@emotion/css";
 import { Box, Button, Menu, Title } from "@mantine/core";
 import { FC } from "react";
+import { CgAdd } from "react-icons/cg";
+import { useAppStore } from "../store";
 
 const InvoiceTitle: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
+  const { invoices } = useAppStore();
+
   return (
     <Box
       display="flex"
@@ -14,11 +19,11 @@ const InvoiceTitle: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
     >
       <Box>
         <Title size="h1">Invoices</Title>
-        <Title size="0.75rem" color="dimmed">
-          There are 8 total invoices
+        <Title size="0.9rem" color="dimmed">
+          There are {invoices.length} total invoices
         </Title>
       </Box>
-      <Box>
+      <Box sx={{ display: "flex", gap: "1rem" }}>
         <Menu shadow="md" width={200}>
           <Menu.Target>
             <Button sx={{ borderRadius: "1rem" }}>Filter by status</Button>
@@ -30,6 +35,15 @@ const InvoiceTitle: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
             <Menu.Item>Vue</Menu.Item>
           </Menu.Dropdown>
         </Menu>
+        <Button sx={{ borderRadius: "1rem" }}>
+          <CgAdd
+            size="1.5rem"
+            className={css`
+              margin-right: 0.5rem;
+            `}
+          />
+          Add
+        </Button>
       </Box>
     </Box>
   );

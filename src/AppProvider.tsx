@@ -7,7 +7,7 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
-        theme={{ colorScheme: "light", primaryColor: "pink" }}
+        theme={{ colorScheme: "light", primaryColor: "indigo" }}
       >
         {children}
       </MantineProvider>
