@@ -31,6 +31,7 @@ const AppNavbar: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
+        zIndex: 222222,
         ...currentStyle,
       }}
     >

@@ -8,6 +8,7 @@ interface IInvoiceItem {
 }
 
 interface IInvoice {
+  id: string;
   billFromAddress: string;
   billFromCity: string;
   billFromPostCode: string;
@@ -25,6 +26,9 @@ interface IInvoice {
   projectDescription: string;
 
   itemList: Array<IInvoiceItem>;
+
+  isPaid: boolean;
+  totalAmt: number;
 }
 
 interface IAppState {
