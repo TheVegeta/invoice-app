@@ -1,13 +1,14 @@
 import { create } from "zustand";
 
-interface IInvoiceItem {
+export interface IInvoiceItem {
+  id: string;
   itemName: string;
   qty: number;
   price: number;
   total: number;
 }
 
-interface IInvoice {
+export interface IInvoice {
   id: string;
   billFromAddress: string;
   billFromCity: string;
@@ -22,7 +23,7 @@ interface IInvoice {
   country: string;
 
   date: Date;
-  paymentTerm: number;
+  paymentTerm: string;
   projectDescription: string;
 
   itemList: Array<IInvoiceItem>;
