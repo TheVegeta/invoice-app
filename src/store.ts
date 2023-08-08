@@ -36,6 +36,8 @@ export interface IInvoice {
 interface IAppState {
   invoices: Array<IInvoice>;
   addInvoice: (arg0: IInvoice) => void;
+  updateInvoice: (arg0: IInvoice) => void;
+  deleteInvoice: (arg0: string) => void;
 }
 
 export const useAppStore = create<IAppState>()(
@@ -44,6 +46,18 @@ export const useAppStore = create<IAppState>()(
       invoices: [],
       addInvoice: (arg0) =>
         set((state) => ({ invoices: [...state.invoices, arg0] })),
+      updateInvoice: (arg0) =>
+        set((state) => ({
+          invoices: [
+            ...state.invoices.map((item) =>
+              item.id === arg0.id ? arg0 : item
+            ),
+          ],
+        })),
+      deleteInvoice: (arg0) =>
+        set((state) => ({
+          invoices: [...state.invoices.filter((item) => item.id !== arg0)],
+        })),
     }),
     { name: "invoice-state", version: 1 }
   )
