@@ -2,10 +2,17 @@ import { css } from "@emotion/css";
 import { Flex, Title } from "@mantine/core";
 import moment from "moment";
 import { CgShapeCircle } from "react-icons/cg";
+import { useHistory } from "react-router-dom";
 import { useAppStore } from "../store";
 
 const InvoiceList = () => {
   const { invoices } = useAppStore();
+
+  const { push } = useHistory();
+
+  const handleRedirect = (arg0: string) => () => {
+    push(`/reciept/${arg0}`);
+  };
 
   return (
     <div>
@@ -28,6 +35,7 @@ const InvoiceList = () => {
                 cursor: pointer;
               }
             `}
+            onClick={handleRedirect(item.id)}
           >
             <Title size="1rem">#{item.id}</Title>
             <Title size="0.9rem" color="dimmed">

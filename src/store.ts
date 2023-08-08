@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -45,7 +46,9 @@ export const useAppStore = create<IAppState>()(
     (set) => ({
       invoices: [],
       addInvoice: (arg0) =>
-        set((state) => ({ invoices: [...state.invoices, arg0] })),
+        set((state) => ({
+          invoices: [...state.invoices, { ...arg0, id: nanoid(8) }],
+        })),
       updateInvoice: (arg0) =>
         set((state) => ({
           invoices: [

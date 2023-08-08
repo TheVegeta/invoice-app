@@ -1,5 +1,6 @@
 import { MantineProvider } from "@mantine/core";
 import { FC, ReactNode } from "react";
+import { BrowserRouter } from "react-router-dom";
 
 const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   return (
@@ -9,7 +10,7 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
         withNormalizeCSS
         theme={{ colorScheme: "light", primaryColor: "indigo" }}
       >
-        {children}
+        <BrowserRouter>{children}</BrowserRouter>
       </MantineProvider>
     </>
   );
