@@ -3,16 +3,19 @@ import { Box, Button, Card, Drawer, Text } from "@mantine/core";
 import {
   Field,
   FieldArray,
+  FieldConfig,
   Formik,
   FormikErrors,
+  FormikHelpers,
+  FormikProps,
   FormikTouched,
   getIn,
 } from "formik";
 import { nanoid } from "nanoid";
-import { FC, Key } from "react";
-import { CgTrash } from "react-icons/cg";
+import { FC, useEffect } from "react";
+import { CgMathPlus, CgTrash } from "react-icons/cg";
 import * as Yup from "yup";
-import { IInvoice, IInvoiceItem } from "../store";
+import { IInvoice, IInvoiceItem, useAppStore } from "../store";
 import { CustomDateInput, CustomInput, CustomSelect } from "./CustomForm";
 
 const initialValue: IInvoice = {
@@ -64,12 +67,12 @@ const validationSchema = Yup.object().shape({
   ),
 });
 
-const FileItemNameComponent = ({
-  // @ts-ignore
-  field,
-  // @ts-ignore
-  form: { touched, errors, values },
-}) => {
+const FileItemNameComponent: FC<{
+  field: FieldConfig<IInvoice>;
+  form: FormikProps<IInvoice>;
+}> = ({ field, form }) => {
+  const { touched, errors, values } = form;
+
   const error = getIn(errors, field.name);
   const touch = getIn(touched, field.name);
   const currValues = getIn(values, field.name);
@@ -86,8 +89,12 @@ const FileItemNameComponent = ({
   );
 };
 
-// @ts-ignore
-const FileIQtyComponent = ({ field, form: { touched, errors, values } }) => {
+const FileIQtyComponent: FC<{
+  field: FieldConfig<IInvoice>;
+  form: FormikProps<IInvoice>;
+}> = ({ field, form }) => {
+  const { touched, errors, values } = form;
+
   const error = getIn(errors, field.name);
   const touch = getIn(touched, field.name);
   const currValues = getIn(values, field.name);
@@ -104,8 +111,12 @@ const FileIQtyComponent = ({ field, form: { touched, errors, values } }) => {
   );
 };
 
-// @ts-ignore
-const FilePriceComponent = ({ field, form: { touched, errors, values } }) => {
+const FilePriceComponent: FC<{
+  field: FieldConfig<IInvoice>;
+  form: FormikProps<IInvoice>;
+}> = ({ field, form }) => {
+  const { touched, errors, values } = form;
+
   const error = getIn(errors, field.name);
   const touch = getIn(touched, field.name);
   const currValues = getIn(values, field.name);
@@ -122,11 +133,29 @@ const FilePriceComponent = ({ field, form: { touched, errors, values } }) => {
   );
 };
 
-// @ts-ignore
-const FileTotalComponent = ({ field, form: { touched, errors, values } }) => {
+const FileTotalComponent: FC<{
+  field: FieldConfig<IInvoice>;
+  form: FormikProps<IInvoice>;
+}> = ({ field, form }) => {
+  const { touched, errors, values } = form;
+
   const error = getIn(errors, field.name);
   const touch = getIn(touched, field.name);
   const currValues = getIn(values, field.name);
+
+  useEffect(() => {
+    try {
+      const currentIndex = parseInt(field.name.split(".")[1]);
+
+      form.values.itemList.map((item, index) => {
+        if (index === currentIndex) {
+          const { price, qty } = item;
+
+          form.setFieldValue(`itemList.${index}.total`, price * qty);
+        }
+      });
+    } catch (err) {}
+  }, [field.name, form.values.itemList]);
 
   return (
     <div className="col-2">
@@ -135,7 +164,62 @@ const FileTotalComponent = ({ field, form: { touched, errors, values } }) => {
         isInvalid={!!touch && !!error}
         label="Total"
         value={currValues}
+        disabled={true}
       />
+    </div>
+  );
+};
+
+const RenderFildItem: FC<{
+  item: IInvoiceItem;
+  index: number;
+  removeItem: (index: number) => () => void;
+  pushItem: () => void;
+}> = ({ index, item, removeItem, pushItem }) => {
+  return (
+    <div className="row" key={index}>
+      <Field
+        name={`itemList.${index}.itemName`}
+        component={FileItemNameComponent}
+      />
+      <Field name={`itemList.${index}.qty`} component={FileIQtyComponent} />
+      <Field name={`itemList.${index}.price`} component={FilePriceComponent} />
+      <Field name={`itemList.${index}.total`} component={FileTotalComponent} />
+      <div
+        className={
+          "col-1" +
+          " " +
+          css`
+            display: flex;
+            align-items: self-end;
+            margin-bottom: 1rem;
+          `
+        }
+      >
+        <Button type="button" sx={{ borderRadius: "1rem" }} onClick={pushItem}>
+          <CgMathPlus />
+        </Button>
+      </div>
+      <div
+        className={
+          "col-1" +
+          " " +
+          css`
+            display: flex;
+            align-items: self-end;
+            margin-bottom: 1rem;
+          `
+        }
+      >
+        <Button
+          type="button"
+          color="red"
+          sx={{ borderRadius: "1rem" }}
+          onClick={removeItem(index)}
+        >
+          <CgTrash />
+        </Button>
+      </div>
     </div>
   );
 };
@@ -145,63 +229,31 @@ const FieldArrayComponent = (arrayHelpers: {
   push: (arg0: IInvoiceItem) => void;
   remove: (arg0: any) => void;
 }) => {
+  const removeItem = (index: number) => () => {
+    arrayHelpers.remove(index);
+  };
+
+  const pushItem = () => {
+    arrayHelpers.push({
+      id: nanoid(8),
+      itemName: "New Item",
+      qty: 0,
+      price: 0,
+      total: 0,
+    });
+  };
+
   return (
     <div>
       {arrayHelpers.form.values.itemList.map(
-        (item: any, index: Key | null | undefined) => (
-          <div className="row" key={index}>
-            <Field
-              name={`itemList.${index}.itemName`}
-              component={FileItemNameComponent}
-            />
-            <Field
-              name={`itemList.${index}.qty`}
-              component={FileIQtyComponent}
-            />
-            <Field
-              name={`itemList.${index}.price`}
-              component={FilePriceComponent}
-            />
-            <Field
-              name={`itemList.${index}.total`}
-              component={FileTotalComponent}
-            />
-            <div
-              className={
-                "col-2" +
-                " " +
-                css`
-                  display: flex;
-                  align-items: self-end;
-                  margin-bottom: 1rem;
-                `
-              }
-            >
-              <Button
-                type="button"
-                color="red"
-                onClick={() => arrayHelpers.remove(index)}
-              >
-                <CgTrash />
-              </Button>
-            </div>
-
-            <Button
-              type="button"
-              sx={{ borderRadius: "1rem", marginBottom: "1rem" }}
-              onClick={() =>
-                arrayHelpers.push({
-                  id: nanoid(8),
-                  itemName: "New Item",
-                  qty: 0,
-                  price: 0,
-                  total: 0,
-                })
-              }
-            >
-              + Add New Item
-            </Button>
-          </div>
+        (item: IInvoiceItem, index: number) => (
+          <RenderFildItem
+            item={item}
+            index={index}
+            key={item.id}
+            removeItem={removeItem}
+            pushItem={pushItem}
+          />
         )
       )}
     </div>
@@ -389,14 +441,26 @@ const AddInvoice: FC<{
   close: VoidFunction;
   isBigScreen: boolean;
 }> = ({ opened, close, isBigScreen }) => {
-  const handleSubmit = () => {};
+  const { addInvoice } = useAppStore();
+
+  const handleSubmit = (val: IInvoice, actions: FormikHelpers<IInvoice>) => {
+    let currentTotal = 0;
+
+    val.itemList.map((item) => {
+      currentTotal = item.total + currentTotal;
+    });
+
+    addInvoice({ ...val, totalAmt: currentTotal });
+    actions.resetForm();
+    close();
+  };
 
   return (
     <>
       <Drawer
         opened={opened}
         onClose={close}
-        size="lg"
+        size="xl"
         closeOnEscape={false}
         className={css`
           .mantine-Paper-root.mantine-Drawer-content.mantine-Drawer-content {

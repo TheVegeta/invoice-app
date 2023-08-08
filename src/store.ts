@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface IInvoiceItem {
   id: string;
@@ -34,8 +35,16 @@ export interface IInvoice {
 
 interface IAppState {
   invoices: Array<IInvoice>;
+  addInvoice: (arg0: IInvoice) => void;
 }
 
-export const useAppStore = create<IAppState>((set) => ({
-  invoices: [],
-}));
+export const useAppStore = create<IAppState>()(
+  persist(
+    (set) => ({
+      invoices: [],
+      addInvoice: (arg0) =>
+        set((state) => ({ invoices: [...state.invoices, arg0] })),
+    }),
+    { name: "invoice-state", version: 1 }
+  )
+);

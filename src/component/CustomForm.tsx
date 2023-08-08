@@ -9,11 +9,17 @@ export const CustomInput: FC<{
   label: string;
   isInvalid: boolean;
   value: string | number;
-}> = ({ name, label, isInvalid, value }) => {
+  disabled?: boolean;
+}> = ({ name, label, isInvalid, value, disabled = false }) => {
   return (
     <>
       <Input.Wrapper mb="sm" label={_.capitalize(label)}>
-        <Input name={name} error={isInvalid} value={value} />
+        <Input
+          name={name}
+          error={isInvalid}
+          value={value}
+          disabled={disabled}
+        />
       </Input.Wrapper>
     </>
   );
