@@ -40,7 +40,7 @@ const initialValue: IInvoice = {
   totalAmt: 0,
 };
 
-const validationSchema = Yup.object().shape({
+export const validationSchema = Yup.object().shape({
   address: Yup.string().required(),
   billFromAddress: Yup.string().required(),
   billFromCity: Yup.string().required(),
@@ -260,7 +260,7 @@ const FieldArrayComponent = (arrayHelpers: {
   );
 };
 
-const RenderForm: FC<{
+export const RenderForm: FC<{
   handleChange: (e: React.ChangeEvent<any>) => void;
   handleSubmit: VoidFunction;
   errors: FormikErrors<IInvoice>;

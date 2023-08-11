@@ -14,6 +14,7 @@ const AppNavbar: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
         height: "100vh",
         borderRadius: "0rem 1.5rem 1.5rem 0rem",
         flexDirection: "column",
+        position: "fixed",
       });
     } else {
       setCurrentStyle({

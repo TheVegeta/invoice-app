@@ -38,6 +38,7 @@ interface IAppState {
   invoices: Array<IInvoice>;
   addInvoice: (arg0: IInvoice) => void;
   updateInvoice: (arg0: IInvoice) => void;
+  makeInvoicePaid: (arg0: string) => void;
   deleteInvoice: (arg0: string) => void;
 }
 
@@ -54,6 +55,14 @@ export const useAppStore = create<IAppState>()(
           invoices: [
             ...state.invoices.map((item) =>
               item.id === arg0.id ? arg0 : item
+            ),
+          ],
+        })),
+      makeInvoicePaid: (arg0) =>
+        set((state) => ({
+          invoices: [
+            ...state.invoices.map((item) =>
+              item.id === arg0 ? { ...item, isPaid: true } : item
             ),
           ],
         })),
