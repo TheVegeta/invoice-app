@@ -1,3 +1,4 @@
+import { css } from "@emotion/css";
 import type { Sx } from "@mantine/core";
 import { Box, Image } from "@mantine/core";
 import { FC, useEffect, useState } from "react";
@@ -18,7 +19,7 @@ const AppNavbar: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
       });
     } else {
       setCurrentStyle({
-        width: "100%",
+        width: "100vw",
         height: "auto",
         borderRadius: "unset",
       });
@@ -43,6 +44,17 @@ const AppNavbar: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
         sx={{ borderRadius: "50%", overflow: "hidden" }}
         mb={isBigScreen ? "md" : "unset"}
         mr={isBigScreen ? "unset" : "md"}
+        className={css`
+          margin-right: 1.5rem;
+
+          @media (min-width: 767px) {
+            margin-right: 5rem;
+          }
+
+          @media (min-width: 1023px) {
+            margin-right: unset;
+          }
+        `}
       >
         <Image width="4rem" src={ProfileImg} />
       </Box>

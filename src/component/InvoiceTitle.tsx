@@ -15,10 +15,22 @@ const InvoiceTitle: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
     <>
       <AddInvoice close={close} opened={opened} isBigScreen={isBigScreen} />
       <Box
+        className={css`
+          padding-right: ${!isBigScreen && "1.8rem"};
+          padding-left: ${!isBigScreen && 0};
+
+          @media (min-width: 767px) {
+            padding-right: 5rem;
+          }
+
+          @media (min-width: 1023px) {
+            padding-right: unset;
+          }
+        `}
         display="flex"
         sx={{
           alignItems: "center",
-          width: "75vw",
+          width: isBigScreen ? "75vw" : "100vw",
           justifyContent: "space-between",
           marginTop: isBigScreen ? "3rem" : "1rem",
         }}
@@ -29,10 +41,10 @@ const InvoiceTitle: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
             There are {invoices.length} total invoices
           </Title>
         </Box>
-        <Box sx={{ display: "flex", gap: "1rem" }}>
+        <Box sx={{ display: "flex", gap: isBigScreen ? "1rem" : "0.4rem" }}>
           <Menu shadow="md" width={200}>
             <Menu.Target>
-              <Button sx={{ borderRadius: "1rem" }}>Filter by status</Button>
+              <Button sx={{ borderRadius: "1rem" }}>Filter</Button>
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item>React</Menu.Item>
@@ -42,12 +54,14 @@ const InvoiceTitle: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
             </Menu.Dropdown>
           </Menu>
           <Button sx={{ borderRadius: "1rem" }} onClick={open}>
-            <CgAdd
-              size="1.5rem"
-              className={css`
-                margin-right: 0.5rem;
-              `}
-            />
+            {isBigScreen && (
+              <CgAdd
+                size="1.5rem"
+                className={css`
+                  margin-right: 0.5rem;
+                `}
+              />
+            )}
             Add
           </Button>
         </Box>
