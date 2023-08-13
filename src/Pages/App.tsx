@@ -8,7 +8,7 @@ const App = () => {
   return (
     <>
       <InvoiceTitle isBigScreen={isBigScreen} />
-      <InvoiceList />
+      <InvoiceList isBigScreen={isBigScreen} />
     </>
   );
 };

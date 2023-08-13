@@ -1,11 +1,12 @@
 import { css } from "@emotion/css";
-import { Flex, Title } from "@mantine/core";
+import { Box, Flex, Title } from "@mantine/core";
 import moment from "moment";
+import { FC } from "react";
 import { CgShapeCircle } from "react-icons/cg";
 import { useHistory } from "react-router-dom";
 import { useAppStore } from "../store";
 
-const InvoiceList = () => {
+const InvoiceList: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
   const { invoices } = useAppStore();
 
   const { push } = useHistory();
@@ -15,7 +16,7 @@ const InvoiceList = () => {
   };
 
   return (
-    <div>
+    <Box w={isBigScreen ? "100%" : "90%"}>
       {invoices.map((item) => {
         return (
           <Flex
@@ -37,31 +38,64 @@ const InvoiceList = () => {
             `}
             onClick={handleRedirect(item.id)}
           >
-            <Title size="1rem">#{item.id}</Title>
-            <Title size="0.9rem" color="dimmed">
-              {moment(item.date).format("DD-MM-YYYY")}
-            </Title>
-            <Title size="0.9rem" color="dimmed">
-              {item.clientName}
-            </Title>
-            <Title size="1.2rem">₹ {item.totalAmt}</Title>
-            <Title
-              size="0.9rem"
-              color={item.isPaid ? "green" : "orange"}
-              fw="bold"
-              className={css`
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 0.1rem;
-              `}
-            >
-              <CgShapeCircle /> {item.isPaid ? "Paid" : "Pending"}
-            </Title>
+            {isBigScreen ? (
+              <>
+                <Title size="1rem">#{item.id}</Title>
+                <Title size="0.9rem" color="dimmed">
+                  {moment(item.date).format("DD-MM-YYYY")}
+                </Title>
+                <Title size="0.9rem" color="dimmed">
+                  {item.clientName}
+                </Title>
+
+                <Title size="1.2rem">₹ {item.totalAmt}</Title>
+                <Title
+                  size="0.9rem"
+                  color={item.isPaid ? "green" : "orange"}
+                  fw="bold"
+                  className={css`
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.1rem;
+                  `}
+                >
+                  <CgShapeCircle /> {item.isPaid ? "Paid" : "Pending"}
+                </Title>
+              </>
+            ) : (
+              <>
+                <Box>
+                  <Title size="1rem">#{item.id}</Title>
+                  <Title size="0.9rem" color="dimmed">
+                    {moment(item.date).format("DD-MM-YYYY")}
+                  </Title>
+                  <Title size="0.9rem" color="dimmed">
+                    {item.clientName}
+                  </Title>
+                </Box>
+                <Box>
+                  <Title size="1.2rem">₹ {item.totalAmt}</Title>
+                  <Title
+                    size="0.9rem"
+                    color={item.isPaid ? "green" : "orange"}
+                    fw="bold"
+                    className={css`
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      gap: 0.1rem;
+                    `}
+                  >
+                    <CgShapeCircle /> {item.isPaid ? "Paid" : "Pending"}
+                  </Title>
+                </Box>
+              </>
+            )}
           </Flex>
         );
       })}
-    </div>
+    </Box>
   );
 };
 

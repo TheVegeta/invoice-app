@@ -78,7 +78,7 @@ const FileItemNameComponent: FC<{
   const currValues = getIn(values, field.name);
 
   return (
-    <div className="col-4">
+    <div className="col-12 col-lg-4">
       <CustomInput
         name={field.name}
         isInvalid={!!touch && !!error}
@@ -100,7 +100,7 @@ const FileIQtyComponent: FC<{
   const currValues = getIn(values, field.name);
 
   return (
-    <div className="col-2">
+    <div className="col-12 col-lg-2">
       <CustomInput
         name={field.name}
         isInvalid={!!touch && !!error}
@@ -122,7 +122,7 @@ const FilePriceComponent: FC<{
   const currValues = getIn(values, field.name);
 
   return (
-    <div className="col-2">
+    <div className="col-12 col-lg-2">
       <CustomInput
         name={field.name}
         isInvalid={!!touch && !!error}
@@ -158,7 +158,7 @@ const FileTotalComponent: FC<{
   }, [field.name, form.values.itemList]);
 
   return (
-    <div className="col-2">
+    <div className="col-12 col-lg-2">
       <CustomInput
         name={field.name}
         isInvalid={!!touch && !!error}
@@ -187,7 +187,7 @@ const RenderFildItem: FC<{
       <Field name={`itemList.${index}.total`} component={FileTotalComponent} />
       <div
         className={
-          "col-1" +
+          "col-2 col-lg-1" +
           " " +
           css`
             display: flex;
@@ -202,7 +202,7 @@ const RenderFildItem: FC<{
       </div>
       <div
         className={
-          "col-1" +
+          "col-2 col-lg-1" +
           " " +
           css`
             display: flex;
@@ -292,7 +292,7 @@ export const RenderForm: FC<{
               value={values.billFromAddress}
             />
           </div>
-          <div className="col-4">
+          <div className="col-12 col-lg-4">
             <CustomInput
               name="billFromCity"
               label="City"
@@ -300,7 +300,7 @@ export const RenderForm: FC<{
               value={values.billFromCity}
             />
           </div>
-          <div className="col-4">
+          <div className="col-12 col-lg-4">
             <CustomInput
               name="billFromPostCode"
               label="Post Code"
@@ -310,7 +310,7 @@ export const RenderForm: FC<{
               value={values.billFromPostCode}
             />
           </div>
-          <div className="col-4">
+          <div className="col-12 col-lg-4">
             <CustomInput
               name="billFromCountry"
               label="Country"
@@ -347,7 +347,7 @@ export const RenderForm: FC<{
               value={values.address}
             />
           </div>
-          <div className="col-4">
+          <div className="col-12 col-lg-4">
             <CustomInput
               name="city"
               label="City"
@@ -355,7 +355,7 @@ export const RenderForm: FC<{
               value={values.city}
             />
           </div>
-          <div className="col-4">
+          <div className="col-12 col-lg-4">
             <CustomInput
               name="postCode"
               label="Post Code"
@@ -363,7 +363,7 @@ export const RenderForm: FC<{
               value={values.postCode}
             />
           </div>
-          <div className="col-4">
+          <div className="col-12 col-lg-4">
             <CustomInput
               name="country"
               label="Country"
@@ -417,20 +417,31 @@ export const RenderForm: FC<{
             />
           </div>
         </div>
+        <div
+          className={
+            "col-12" +
+            " " +
+            css`
+              @media (max-width: 1023px) {
+                margin-bottom: 10rem;
+              }
+            `
+          }
+        >
+          <Text color="dimmed" fw="bold" mb="sm">
+            Item List
+          </Text>
+          <FieldArray name="itemList" component={FieldArrayComponent} />
 
-        <Text color="dimmed" fw="bold" mb="sm">
-          Item List
-        </Text>
-        <FieldArray name="itemList" component={FieldArrayComponent} />
-
-        <Box sx={{ display: "flex", justifyContent: "end", gap: "1rem" }}>
-          <Button onClick={close} color="red" sx={{ borderRadius: "1rem" }}>
-            Discard
-          </Button>
-          <Button color="indigo" sx={{ borderRadius: "1rem" }} type="submit">
-            Save
-          </Button>
-        </Box>
+          <Box sx={{ display: "flex", justifyContent: "end", gap: "1rem" }}>
+            <Button onClick={close} color="red" sx={{ borderRadius: "1rem" }}>
+              Discard
+            </Button>
+            <Button color="indigo" sx={{ borderRadius: "1rem" }} type="submit">
+              Save
+            </Button>
+          </Box>
+        </div>
       </Card>
     </form>
   );
