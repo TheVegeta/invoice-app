@@ -91,7 +91,7 @@ const InvoiceDetails = () => {
             <CgShapeCircle /> {currentInvoice?.isPaid ? "Paid" : "Pending"}
           </Title>
         </Box>
-        <Box sx={{ display: "flex", gap: "1rem" }}>
+        <Box display={{ base: "none", md: "flex" }} sx={{ gap: "1rem" }}>
           <Button onClick={open} variant="subtle" sx={{ borderRadius: "1rem" }}>
             Edit
           </Button>
@@ -122,7 +122,17 @@ const InvoiceDetails = () => {
           margin-bottom: 3rem;
         `}
       >
-        <Box w="100%" sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box
+          w="100%"
+          display={{
+            xs: "inline",
+            sm: "inline",
+            md: "flex",
+            lg: "flex",
+            xl: "flex",
+          }}
+          sx={{ justifyContent: "space-between" }}
+        >
           <Box>
             <Title size="1.1rem" fw="bold">
               {currentInvoice?.id}
@@ -131,7 +141,24 @@ const InvoiceDetails = () => {
               {currentInvoice?.projectDescription}
             </Title>
           </Box>
-          <Box>
+          <Box
+            mt={{
+              base: "1rem",
+              xs: "1rem",
+              sm: "1rem",
+              md: "0",
+              lg: "0",
+              xl: "0",
+            }}
+            mb={{
+              base: "1rem",
+              xs: "1rem",
+              sm: "1rem",
+              md: "0",
+              lg: "0",
+              xl: "0",
+            }}
+          >
             <Title size="1rem" color="dimmed" fw="500">
               {currentInvoice?.address}
             </Title>
@@ -145,7 +172,7 @@ const InvoiceDetails = () => {
         </Box>
         <Box w="100%" sx={{ display: "flex", justifyContent: "space-between" }}>
           <div className="row" style={{ width: "100%" }}>
-            <div className="col-3">
+            <div className="col-6 col-lg-3">
               <Box mb="lg">
                 <Title size="1rem" color="dimmed" fw="500">
                   Invoice Date
@@ -165,7 +192,7 @@ const InvoiceDetails = () => {
                 </Title>
               </Box>
             </div>
-            <div className="col-3">
+            <div className="col-6 col-lg-3">
               <Box mb="lg">
                 <Title size="1rem" color="dimmed" fw="500">
                   Bill To
@@ -200,15 +227,31 @@ const InvoiceDetails = () => {
         </Box>
         <Box
           bg="#f4f4f4"
-          p="1rem"
+          // p="1rem"
           px="xl"
           sx={{ borderRadius: "1rem" }}
           my="sm"
           className={css`
             border: 1.5px solid transparent;
             width: 70vw;
-            margin-top: 2rem;
+            /* margin-bottom: 2rem; */
           `}
+          p={{
+            base: "0rem !important",
+            xs: "0rem !important",
+            sm: "0rem !important",
+            md: "0rem !important",
+            lg: "1rem",
+            xl: "1rem",
+          }}
+          m={{
+            base: "0rem !important",
+            xs: "0rem !important",
+            sm: "0rem !important",
+            md: "0rem !important",
+            lg: "1rem",
+            xl: "1rem",
+          }}
         >
           <Table
             className={css`
@@ -242,22 +285,75 @@ const InvoiceDetails = () => {
           </Table>
           <Flex
             justify="space-between"
-            mt="lg"
+            // mt="lg"
             bg="#373b53"
             p="lg"
             className={css`
               color: #fff !important;
               border-radius: 0 0 1.5rem 1.5rem;
+
+              h1 {
+                font-size: 1.2rem;
+              }
             `}
+            m={{
+              // base: "0rem !important",
+              xs: "0rem !important",
+              sm: "0rem !important",
+              md: "0rem !important",
+              lg: "1rem",
+              xl: "1rem",
+            }}
+            mt={{
+              // base: "0rem !important",
+              xs: "0rem !important",
+              sm: "0rem !important",
+              md: "0rem !important",
+              lg: "1rem",
+              xl: "1rem",
+            }}
           >
-            <Box display="flex" sx={{ gap: "0.4rem", alignItems: "center" }}>
+            <Box
+              ml="xl"
+              display="flex"
+              sx={{ gap: "0.4rem", alignItems: "center" }}
+            >
               <Title>Amount Due</Title>
             </Box>
-            <Box display="flex" sx={{ gap: "0.4rem", alignItems: "center" }}>
+            <Box
+              mr="xl"
+              display="flex"
+              sx={{ gap: "0.4rem", alignItems: "center" }}
+            >
               <Title>{currentInvoice?.totalAmt}</Title>
             </Box>
           </Flex>
         </Box>
+      </Box>
+      <Box
+        bg="white"
+        display={{ base: "flex", md: "none" }}
+        sx={{
+          gap: "1rem",
+          justifyContent: "center",
+          marginBottom: "3rem",
+          marginTop: "-1rem",
+        }}
+      >
+        <Button onClick={open} variant="subtle" sx={{ borderRadius: "1rem" }}>
+          Edit
+        </Button>
+        <Button color="red" sx={{ borderRadius: "1rem" }}>
+          Delete
+        </Button>
+        <Button
+          disabled={currentInvoice?.isPaid}
+          onClick={handleMakePay}
+          color="indigo"
+          sx={{ borderRadius: "1rem" }}
+        >
+          Mark as Paid
+        </Button>
       </Box>
     </>
   );
