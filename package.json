@@ -2,6 +2,7 @@
   "name": "invoice-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://TheVegeta.github.io/invoice-app",
   "dependencies": {
     "@emotion/css": "^11.11.2",
     "@emotion/react": "^11.11.1",
@@ -25,6 +26,8 @@
     "zustand": "^4.4.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -50,6 +53,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.196",
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react-router-dom": "^5.3.3",
+    "gh-pages": "^6.0.0"
   }
 }

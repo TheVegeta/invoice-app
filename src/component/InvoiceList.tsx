@@ -20,6 +20,7 @@ const InvoiceList: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
       {invoices.map((item) => {
         return (
           <Flex
+            key={item.id}
             bg="#f4f4f4"
             gap="md"
             justify="space-between"

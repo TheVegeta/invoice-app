@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { initData } from "./data";
 
 export interface IInvoiceItem {
   id: string;
@@ -45,7 +46,7 @@ interface IAppState {
 export const useAppStore = create<IAppState>()(
   persist(
     (set) => ({
-      invoices: [],
+      invoices: [...initData],
       addInvoice: (arg0) =>
         set((state) => ({
           invoices: [...state.invoices, { ...arg0, id: nanoid(8) }],

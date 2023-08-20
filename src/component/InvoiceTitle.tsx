@@ -42,17 +42,19 @@ const InvoiceTitle: FC<{ isBigScreen: boolean }> = ({ isBigScreen }) => {
           </Title>
         </Box>
         <Box sx={{ display: "flex", gap: isBigScreen ? "1rem" : "0.4rem" }}>
-          <Menu shadow="md" width={200}>
-            <Menu.Target>
-              <Button sx={{ borderRadius: "1rem" }}>Filter</Button>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Item>React</Menu.Item>
-              <Menu.Item>Angular</Menu.Item>
-              <Menu.Item>Svelte</Menu.Item>
-              <Menu.Item>Vue</Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+          {false && (
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <Button sx={{ borderRadius: "1rem" }}>Filter</Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item>React</Menu.Item>
+                <Menu.Item>Angular</Menu.Item>
+                <Menu.Item>Svelte</Menu.Item>
+                <Menu.Item>Vue</Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          )}
           <Button sx={{ borderRadius: "1rem" }} onClick={open}>
             {isBigScreen && (
               <CgAdd
