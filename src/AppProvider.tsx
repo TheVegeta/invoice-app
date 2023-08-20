@@ -10,7 +10,7 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
         withNormalizeCSS
         theme={{ colorScheme: "light", primaryColor: "indigo" }}
       >
-        <BrowserRouter>{children}</BrowserRouter>
+        <BrowserRouter basename="/invoice-app">{children}</BrowserRouter>
       </MantineProvider>
     </>
   );
